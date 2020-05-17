@@ -86,4 +86,4 @@
 
 ### Contact
 
-**Having trouble with using the project? Connect me on LinkedIn [Chandra Shekhar Sharma](https://www.linkedin.com/in/chandra-shekhar-s-a76b37158/) will help you sort it out. CIAO)/**
+**Having trouble with using the project? Connect me on LinkedIn [Abhay Raj Singh Rathore](www.linkedin.com/in/abhay-raj-singh-rathore-54078a160) will help you sort it out. CIAO)/**
