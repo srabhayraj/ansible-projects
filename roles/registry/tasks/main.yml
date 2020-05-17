@@ -1,0 +1,70 @@
+---
+# tasks file for registry
+- name: For docker-ce and jenkins installation
+  command:
+          cmd: pwd
+- name: For docker-ce and jenkins installation
+  dnf:
+          name:
+               - docker-ce
+          skip_broken: yes
+          state: present
+
+- name: Create a directory if it does not exist
+  file:
+          path: /opt/docker/
+          state: directory
+          mode: '0777'
+  ignore_errors: yes
+
+- name: Create a directory if it does not exist
+  file:
+          path: /opt/docker/wordpress/
+          state: directory
+          mode: '0777'
+  ignore_errors: yes
+
+
+- pip:
+        name: docker
+- pip:
+        name: docker-compose
+
+- name: Installing docker-compose
+  copy: 
+          src: docker-compose
+          dest: /usr/local/bin/
+          mode: '0777'  
+
+- name: Masquerade
+  firewalld:
+          masquerade: yes
+          permanent: yes
+          immediate: yes
+          state: enabled
+
+- name: Redirect port 443 to 8443 with Rich Rule
+  firewalld:
+          rich_rule: rule family=ipv4 forward-port port=443 protocol=tcp to-port=8443
+          zone: public
+          permanent: yes
+          immediate: yes
+          state: enabled
+
+- name: Pull default Docker image
+  docker_image:
+          name: centos:latest
+          source: pull
+ 
+- name: Create docker-compose file
+  template:
+          src: docker-compose.yml.j2
+          dest: /opt/docker/wordpress/docker-compose.yml
+          owner: root
+          group: root
+          mode: 0644
+
+- name: lauching my compose
+  shell: docker-compose up -d
+  args:
+          chdir: /opt/docker/wordpress/
